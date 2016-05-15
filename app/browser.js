@@ -28,11 +28,15 @@
 
                 $('.addbutton').remove();
 
-                var links = $('.video-list').find('a[href^="/watch"]');
+                var links = $/*('.video-list').find*/('a[href^="/watch"]');
 
 
 
                 links.each(function () {
+
+
+                    position = $(this).position();
+
 
 
                     var plus;
@@ -40,16 +44,22 @@
 
 
                     plus.addClass('addbutton');
-                    plus.css('float', 'right');
-                    plus.css('width', '50px');
-                    plus.css('height', '50px');
+                    /*plus.css('float', 'right');*/
+                    plus.css('position', 'absolute');
+                    plus.css('top', position.top);
+                    plus.css('left', position.left);
+                    plus.css('z-index', 99999);
+
+
+                    plus.css('width', '30px');
+                    plus.css('height', '30px');
                     plus.css('border', '2px solid #00f');
                     plus.css('border-radius', '500px');
                     plus.css('background', '#fff');
-                    plus.css('z-index', 99999);
+
 
                     plus.css('text-align', 'center');
-                    plus.css('font-size', '40px');
+                    plus.css('font-size', '25px');
                     plus.css('color', '#00f');
                     plus.attr('inlist', 'no');
 
