@@ -10,7 +10,7 @@ $method = strtoupper($_SERVER['REQUEST_METHOD']);
 
 
 
-$filename = __DIR__ . '/../../download/list.json';
+$filename = __DIR__ . '/../../list.json';
 
 
 

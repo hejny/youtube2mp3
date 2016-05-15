@@ -1,7 +1,7 @@
 
 
 var dir = __dirname + '/../download/';
-var list_file = dir+'list.json';
+var list_file = __dirname + '/../list.json';
 
 
 var exec = require('child_process').exec;
