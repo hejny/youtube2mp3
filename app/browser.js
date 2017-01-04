@@ -16,10 +16,19 @@
     };
 
 
+
     checkReady(function($) {
 
 
+		var reloading = false;
         var reload = function() {
+
+
+			if(reloading){
+				console.log('already reloading...');
+				return;
+			}
+			var reloading = true;
             var request = $.get('https://localhost/youtube/app/api/item.php').done(function (response) {
 
                 var response = Object.keys(response).map(function(k) { return response[k] });
@@ -65,6 +74,7 @@
 
 
                     var url = $(this)[0].href;
+					url = url.split('&list')[0];
 
 
 
@@ -105,6 +115,9 @@
                         ).done(
                             function () {
 
+								button.text('✓');
+                                button.css('background', '#ccc');
+
                                 /*if (button.attr('inlist') == 'no') {
                                     button.attr('inlist', 'yes');
                                     button.css('background', '#6f9');
@@ -112,14 +125,13 @@
                                     button.attr('inlist', 'no');
                                     button.css('background', '#fff');
                                 }*/
-                                reload();
 
                             }
                         ).fail(
                             function () {
 
-                                reload();
-                                /*button.css('background', '#f00');*/
+                   
+                                button.css('background', '#f00');
                             }
                         );
 
@@ -130,12 +142,38 @@
 
 
                 });
+						
             });
+			reloading = false;
+
+
 
         };
 
         reload();
 
 
+
+		var all = $('<button>All</button>');
+		all.css('position','fixed');
+		all.css('z-index','999999');
+		all.css('bottom','5px');
+		all.css('right','5px');
+		$('body').append(all);
+
+
+		all.click(function(){
+			$('.addbutton').trigger('click');
+		});
+
+
+
+
+
+
+
+
     });
+
+
 })();
