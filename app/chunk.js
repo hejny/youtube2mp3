@@ -9,7 +9,7 @@ var exec = require('child_process').exec;
 var fs = require("fs");
 
 
-var CHUNK_MINUTES_DURATION = 10;
+var CHUNK_MINUTES_DURATION = 5;
 
 
 
@@ -312,11 +312,19 @@ function getNumberOfChunks(file,onSuccess) {
 
             //console.log(stdout);
 
-            var time = stdout
-                .split(' ').join('')
-                .split('Duration:')[1]
-                .split('(approx)').join('')
-                .trim();
+            var time;
+            try{
+
+                time = stdout
+                    .split(' ').join('')
+                    .split('Duration:')[1]
+                    .split('(approx)').join('')
+                    .trim();
+            }catch(e){
+
+                time = '00:00:00';
+            }
+
 
 
             var chunks = Math.ceil(consoleTimeToMinutes(time) / CHUNK_MINUTES_DURATION);
@@ -344,7 +352,7 @@ function chunkFile(dir_form,dir_to,filebasename,onSuccess) {
     var dirname = filebasename;
     dirname = dirname.split('Soudkyně Barbara').join('');
     dirname = removeDiacritics(dirname);
-    dirname = dirname.split('-')[0];
+    //dirname = dirname.split('-')[0];
     dirname = dirname.trim().split(' ').join('-');
 
     dirname = dirname.split('--').join('-');
@@ -354,57 +362,68 @@ function chunkFile(dir_form,dir_to,filebasename,onSuccess) {
 
 
 
-    fs.mkdir(dir_to,function(e){
-        fs.mkdir(dir_to+'/'+dirname,function(e) {
+    fs.mkdir(dir_to,function(err){
+        fs.mkdir(dir_to+'/'+dirname,function(err) {
 
 
-            getNumberOfChunks(file_from, function (chunks, duration) {
+            if (err) {
+                //console.log('failed to create directory', err);
+                onSuccess();
+
+            }else {
 
 
-                //filebasename_chunked = chunkString(dirname, Math.floor(filebasename.length / (chunks + 1)));
+                getNumberOfChunks(file_from, function (chunks, duration) {
 
 
-                var file_info_to = dir_to + '/' + dirname + '/_' + duration/*filebasename_chunked[0]*/ + '_.txt';
-                fs.writeFile(file_info_to,
-                    'Name: ' + removeDiacritics(filebasename) + '\n' +
-                    'Duration: ' + duration + '\n'
-                    , function (err) {
-                    });
+                    if(chunks==0){
+                        console.log('failed');
+                        onSuccess();
+                        return;
+                    }
+
+                    //filebasename_chunked = chunkString(dirname, Math.floor(filebasename.length / (chunks + 1)));
 
 
-
-                chunks_next = function(chunk){
-
-                    chunkFilePiece(dir_form, dir_to, filebasename,dirname, chunk, /*filebasename_chunked[chunk + 1]*/dirname, function () {
-
-                        //console.log('chunk '+chunk+' completed');
-
-                        chunk++;
-                        if (chunk == chunks) {
-
-                            onSuccess();
-                        }else{
-
-                            chunks_next(chunk);
-                        }
+                    var file_info_to = dir_to + '/' + dirname + '/_' + duration/*filebasename_chunked[0]*/ + '_.txt';
+                    fs.writeFile(file_info_to,
+                        'Name: ' + removeDiacritics(filebasename) + '\n' +
+                        'Duration: ' + duration + '\n'
+                        , function (err) {
+                        });
 
 
-                    });
+                    chunks_next = function (chunk) {
 
-                };
+                        chunkFilePiece(dir_form, dir_to, filebasename, dirname, chunk, /*filebasename_chunked[chunk + 1]*/dirname, function () {
 
-                chunks_next(0);
+                            //console.log('chunk '+chunk+' completed');
+
+                            chunk++;
+                            if (chunk == chunks) {
+
+                                onSuccess();
+                            } else {
+
+                                chunks_next(chunk);
+                            }
 
 
+                        });
 
-                for (var chunk = 0; chunk < chunks; chunk++) {
+                    };
+
+                    chunks_next(0);
 
 
+                    for (var chunk = 0; chunk < chunks; chunk++) {
 
 
-                }
+                    }
 
-            });
+                });
+
+            }
         });
 
     });
@@ -454,6 +473,8 @@ walker.on('file', function(root, stat, next) {
             filebasename: name
         });*/
 
+    }else{
+        next();
     }
 
     //files.push(root + '/' + stat.name);
