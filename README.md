@@ -4,7 +4,6 @@
 
  [![Package Quality](https://packagequality.com/shield/youtube2mp3.svg)](https://packagequality.com/#?package=youtube2mp3)
  [![License](https://img.shields.io/github/license/hejny/youtube2mp3.svg?style=flat)](https://raw.githubusercontent.com/hejny/youtube2mp3/master/LICENSE)
- [![NPM Version](https://badge.fury.io/js/@hejny%2Fyoutube2mp3.svg)](https://www.npmjs.com/package/@hejny/youtube2mp3)
  [![Known Vulnerabilities](https://snyk.io/test/github/hejny/youtube2mp3/badge.svg)](https://snyk.io/test/github/hejny/youtube2mp3)
  [![Issues](https://img.shields.io/github/issues/hejny/youtube2mp3.svg?style=flat)](https://github.com/hejny/youtube2mp3/issues)
 
