@@ -4,5 +4,6 @@
   "dependencies": {
     "walk": "2.3.9"
   },
-  "license": "SEE LICENSE IN LICENSE"
+  "license": "SEE LICENSE IN LICENSE",
+  "description": "youtube2mp3"
 }
