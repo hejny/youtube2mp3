@@ -1,13 +1,13 @@
 {
-  "name": "youtube-mp3-downloader",
-  "version": "0.0.1",
-  "dependencies": {
-    "walk": "2.3.9"
-  },
-  "license": "SEE LICENSE IN LICENSE",
-  "description": "youtube2mp3",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/hejny/youtube2mp3"
-  }
+    "name": "youtube-mp3-downloader",
+    "version": "0.0.1",
+    "dependencies": {
+        "walk": "2.3.9"
+    },
+    "license": "SEE LICENSE IN LICENSE",
+    "description": "youtube2mp3",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/hejny/youtube2mp3"
+    }
 }
